@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>DnD Chatbot</h1>
+
+        <!-- Display sample predictions -->
+        <h2>Sample Questions</h2>
+        <ul>
+            {% for question, category, info in predictions %}
+            <li>
+                <strong>Question:</strong> {{ question }} <br>
+                <strong>Predicted Category:</strong> {{ category }} <br>
+                <strong>Relevant Information:</strong>
+                <ul>
+                    {% for entry in info %}
+                    <li>{{ entry }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Display user input predictions -->
+        {% if user_interactions %}
+        <h2>Your Past Questions</h2>
+        <ul>
+            {% for question, category, info in user_interactions %}
+            <li>
+                <strong>Your Question:</strong> {{ question }} <br>
+                <strong>Predicted Category:</strong> {{ category }} <br>
+                <strong>Relevant Information:</strong>
+                <ul>
+                    {% for entry in info %}
+                    <li>{{ entry }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Chatbox for user input -->
+        <h2>Ask the Chatbot</h2>
+        <form method="POST" action="/chat">
+            <textarea name="user_input" id="user_input" placeholder="Ask about classes, equipment, monsters, races, or spells..." required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
