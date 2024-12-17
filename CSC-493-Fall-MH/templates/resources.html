@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='get_saved_preferences.js') }}"></script>
+    <title>Resources</title>
+</head>
+<style>
+    body {
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+    }
+
+    header, section, footer {
+        margin-bottom: 20px;
+    }
+    .hah1{
+        padding: 0;
+    }
+
+    header h1 {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+</style>
+<body>
+    <div class="navigation-container">
+        <nav class="navigation-menu">
+            <div class="navigation-menu__overlay" onclick="toggleMenuClicked()"></div>
+            <button type="button" class="hamburger-menu" onclick="toggleMenuClicked()">
+                <span class="material-icons" id="open-icon">menu</span>
+                <span class="material-icons" id="close-icon">close</span>
+            </button>
+            <h1 class="site-identity-logo">Voice Bridge</h1>
+            <section class="navigation-menu__labels">
+                <a href="home.html"><button type="button">Home</button></a>
+                <a href="about.html"><button type="button">About</button></a>
+                <a href="resources.html"><button type="button">Resources</button></a>
+                <a href="faq.html"><button type="button">FAQ</button></a>
+            </section>
+        </nav>
+    </div>
+
+
+<header>
+        <h1>Resources</h1>
+    </header>
+
+    <section>
+        <h2>How to support nonverbal autistic individuals</h2>
+        <ul>
+            <li><a href="https://www.autismspeaks.org/expert-opinion/seven-ways-help-your-child-nonverbal-autism-speak" target="_blank">Seven Ways to Help Your Child with Nonverbal Autism Speak</a></li>
+            <li><a href="https://www.thefca.co.uk/fostering-autistic-children/communicating-with-a-nonverbal-child/" target="_blank">Communicating with a Nonverbal Child</a></li>
+            <li><a href="https://stamurai.com/blog/ways-to-help-nonverbal-child-with-autism-speak/" target="_blank">Ways to Help a Nonverbal Child with Autism Speak</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Information on web accessibility for autistic individuals</h2>
+        <ul>
+            <li><a href="https://www.autism.org.uk/what-we-do/website/accessibility" target="_blank">Website Accessibility - National Autistic Society</a></li>
+            <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6485264/" target="_blank">Web Accessibility for People with Autism - National Center for Biotechnology Information</a></li>
+            <li><a href="https://www.boia.org/blog/how-web-accessibility-affects-people-with-autism" target="_blank">How Web Accessibility Affects People with Autism - Bureau of Internet Accessibility</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>How can AI support AAC devices for autistic individuals?</h2>
+        <ul>
+            <li><a href="https://avazapp.com/blog/ai-and-aac-how-ai-can-empower-aac-users/" target="_blank">AI and AAC: How AI Can Empower AAC Users</a></li>
+            <li><a href="https://enablingdevices.com/blog/artificial-intelligence-helps-non-verbal-man-to-communicate/" target="_blank">Artificial Intelligence Helps Non-Verbal Man to Communicate</a></li>
+            <li><a href="https://www.linkedin.com/pulse/revolutionizing-autism-care-transformative-role-jason-ledbetter/" target="_blank">Revolutionizing Autism Care: The Transformative Role of AI - LinkedIn Article</a></li>
+        </ul>
+    </section>
+
+</body>
+</html>

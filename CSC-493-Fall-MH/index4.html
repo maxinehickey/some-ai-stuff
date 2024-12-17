@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>FAQ</title>
+    
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<style>
+  body {
+      padding: 20px;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+  }
+
+  header, section, footer {
+      margin-bottom: 20px;
+  }
+  .hah1{
+      padding: 0;
+  }
+
+  header h1 {
+      margin-bottom: 10px;
+  }
+
+  h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+  }
+
+  ul {
+      list-style-type: none;
+      padding: 0;
+  }
+
+  li {
+      margin-bottom: 10px;
+  }
+</style>
+<body>
+    <div class="navigation-container">
+        <nav class="navigation-menu">
+            <div class="navigation-menu__overlay" onclick="toggleMenuClicked()"></div>
+            <button type="button" class="hamburger-menu" onclick="toggleMenuClicked()">
+                <span class="material-icons" id="open-icon">menu</span>
+                <span class="material-icons" id="close-icon">close</span>
+            </button>
+            <h1 class="site-identity-logo">Voice Bridge</h1>
+            <section class="navigation-menu__labels">
+                <a href="index.html"><button type="button">Home</button></a>
+                <a href="index2.html"><button type="button">About</button></a>
+                <a href="index3.html"><button type="button">Resources</button></a>
+                <a href="index4.html"><button type="button">FAQ</button></a>
+            </section>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h1 class="hah1">Frequently Asked Questions</h1>
+      <h2>
+        Autism FAQ<br>
+       
+      </h2>
+      <div class="markdown-block">
+        <div class="sqs-block-content">
+          <ol>
+            <li>
+              <h3>What is autism?</h3>
+              <p>Autism is a complex neurodevelopmental disorder characterized by challenges in social communication and behavior.</p>
+            </li>
+      
+            <li>
+              <h3>What are the common signs of autism?</h3>
+              <p>Common signs of autism include difficulties with social interaction, repetitive behaviors, and communication challenges.</p>
+            </li>
+      
+            <li>
+              <h3>How is autism diagnosed?</h3>
+              <p>Autism is diagnosed through a comprehensive assessment that considers behavior, communication, and developmental history.</p>
+            </li>
+      
+            <li>
+              <h3>Are there different types of autism?</h3>
+              <p>Autism is a spectrum disorder, meaning individuals may present a wide range of strengths and challenges.</p>
+            </li>
+      
+            <li>
+              <h3>What are some common challenges faced by individuals with autism?</h3>
+              <p>Common challenges include difficulties in socializing, communicating, and managing sensory sensitivities.</p>
+            </li>
+      
+            <li>
+              <h3>How can I support someone with autism?</h3>
+              <p>Support individuals with autism by fostering understanding, providing structure, and promoting inclusive environments.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+<!-- For the Chatbot FAQ -->
+<br>
+<h2>
+  Chatbot FAQ<br>
+</h2>
+<div class="markdown-block">
+  <div class="sqs-block-content">
+      <ol>
+          <li>
+              <h3>What is the purpose of the chatbot for nonverbal communicators?</h3>
+              <p>The chatbot aims to assist nonverbal communicators by providing a digital tool for expressive communication.</p>
+          </li>
+
+          <li>
+              <h3>How does the chatbot work?</h3>
+              <p>The chatbot operates through artificial intelligence and natural language processing to facilitate communication using text, images, and symbols.</p>
+          </li>
+
+          <li>
+              <h3>Who can benefit from using the chatbot?</h3>
+              <p>The chatbot is designed to benefit individuals with limited verbal communication skills, including those on the autism spectrum.</p>
+          </li>
+
+          <li>
+              <h3>Can the chatbot replace human interaction or therapy?</h3>
+              <p>No, the chatbot is a supportive tool and not a substitute for professional human interaction or therapy.</p>
+          </li>
+
+          <li>
+              <h3>Is the chatbot customizable for individual needs?</h3>
+              <p>Yes, the chatbot often offers customization features, allowing users to tailor it to their specific communication preferences.</p>
+          </li>
+
+          <li>
+              <h3>Are there any costs associated with using the chatbot?</h3>
+              <p>No, the chatbot is free for all users.</p>
+          </li>
+
+          <li>
+              <h3>How can I provide feedback or report issues with the chatbot?</h3>
+              <p>Users can provide feedback or report issues through designated feedback mechanisms on the web app.</p>
+          </li>
+      </ol>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.markdown-block .sqs-block-content h3').addClass('ui-closed').css('cursor','pointer');
+    $(".markdown-block .sqs-block-content h3").nextUntil("h3").slideToggle();
+    $(".markdown-block .sqs-block-content h3").click(function() {
+      $(this).nextUntil("h3").slideToggle();
+      $(this).toggleClass('ui-closed ui-open');
+    });
+  });
+</script>
+
+    <script src="script.js"></script>
+</body>
+</html>

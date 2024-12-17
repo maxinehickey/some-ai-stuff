@@ -1,0 +1,196 @@
+body {
+    font-family: sans-serif;
+    background-color: #DDF8E8;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    
+}
+
+/* Center the chat container vertically and horizontally */
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Center in the viewport */
+}
+
+/* Center the user input container horizontally */
+#user-input {
+    text-align: center;
+}
+
+/* Center the button within the user input container */
+#user-input button {
+    margin: 10px 0;
+}
+
+
+* {
+    box-sizing: border-box;
+  }
+  
+  button {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: black;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 30px;
+  }
+  
+  .navigation-menu {
+    box-sizing: border-box;
+    min-width: 100%;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #bfd8cb;
+    color: black;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    .navigation-menu {
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+  }
+
+  .navigation-menu__overlay {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  transition: 0.3s;
+}
+
+body.open .navigation-menu__overlay {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .navigation-menu__overlay {
+    display: none;
+  }
+}
+
+.hamburger-menu {
+  position: absolute;
+  padding: 0;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+}
+
+#close-icon {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .hamburger-menu {
+    display: none;
+  }
+}
+
+.site-identity-logo {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  font-size: 30px;
+  &:hover {
+    color: #fe2e64;
+  }
+}
+
+.navigation-menu__labels {
+  position: fixed;
+  visibility: hidden;
+  z-index: 3;
+  top: 50px;
+  left: 0;
+  width: 50%;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #bfd8cb;
+  transition: translate 0.3s;
+  translate: -100% 0;
+  :hover {
+    color: #fe2e64;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .navigation-menu__labels {
+    position: static;
+    top: 0;
+    left: 0;
+    translate: 0 0;
+    width: auto;
+    background: transparent;
+    flex-direction: row;
+    visibility: visible;
+  }
+}
+
+body.open .navigation-menu__labels {
+  translate: 0 0;
+  visibility: visible;
+}
+
+.navigation-menu__labels > button {
+  color: #f9f9f9;
+  background: transparent;
+  padding: 0 8px;
+}
+
+.navigation-menu__labels > button.active {
+  color: inherit;
+}
+
+/* FAQ Styles */
+.markdown-block h3 {
+  font-size: 20px;
+  margin-left: 26px;
+}
+
+.markdown-block p {
+  padding-left: 26px;
+}
+
+.markdown-block .ui-closed:before {
+  font-family: monospace;
+  content: "+ ";
+  margin-left: -27px;
+}
+
+.markdown-block .ui-open:before {
+  font-family: monospace;
+  content: "- ";
+  margin-left: -27px;
+}
+
+.markdown-block h3.ui-open {
+  color: purple;
+}

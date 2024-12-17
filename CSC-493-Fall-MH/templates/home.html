@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='get_saved_preferences.js') }}"></script>
+    <script src="{{ url_for('static', filename='retrieve_message.js') }}"></script>
+    <title>Voice Bridge</title>
+</head>
+
+<body>
+    <div class="navigation-container">
+        <nav class="navigation-menu">
+            <div class="navigation-menu__overlay" onclick=""></div>
+            <button type="button" class="hamburger-menu" onclick="">
+                <span class="material-icons" id="open-icon">menu</span>
+                <span class="material-icons" id="close-icon">close</span>
+            </button>
+            <h1 class="site-identity-logo">Voice Bridge</h1>
+            <section class="navigation-menu__labels">
+                <a href="home.html"><button type="button">Home</button></a>
+                <a href="about.html"><button type="button">About</button></a>
+                <a href="resources.html"><button type="button">Resources</button></a>
+                <a href="faq.html"><button type="button">FAQ</button></a>
+            </section>
+        </nav>
+    </div>
+
+
+    <div id="main-ui">
+        <script>
+            function toggle_pred() {
+                var on_off = $('#pred_check').prop('checked');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/pred_on_off',
+                    data: { 'predictions_on': on_off },
+                    success: function (data) {
+                        $('#predictions').css('display', data.predictions_on ? 'block' : 'none');
+                    },
+
+                });
+            }
+
+            function toggle_tts() {
+                var on_off = $('#tts_check').prop('checked');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/tts_on_off',
+                    data: { 'tts_on': on_off },
+                    success: function (data) {
+                        $('#tts').css('display', data.tts_on ? 'block' : 'none');
+                    },
+
+                });
+            }
+
+            $('#pred_check').on('change', toggle_pred);
+            $('#tts_check').on('change', toggle_tts);
+        </script>
+
+        <div id="chat-container">
+            <div id="predictions" class="center" {{ "style='display: none;'" if not predictions_on else "" }}>
+                <button id="pred_1" onclick="used_pred_word('{{pred_word_1}}')">{{pred_word_1}}</button>
+                <button id="pred_2" onclick="used_pred_word('{{pred_word_2}}')">{{pred_word_2}}</button>
+                <button id="pred_3" onclick="used_pred_word('{{pred_word_3}}')">{{pred_word_3}}</button>
+                <button id="pred_4" onclick="used_pred_word('{{pred_word_4}}')">{{pred_word_4}}</button>
+            </div>
+            <div id="user-input" class="center">
+                <form id="user-prompt-form" method="post">
+                    <input type="text" id="user-prompt" name="user-prompt" placeholder="Enter an expression..."
+                        required>
+                    <button type="submit" id="submit">Send</button>
+                </form>
+
+
+
+            </div>
+            <div id="output-messages">
+                <p>Prompt: {{ user_prompt }}</p>
+                {% if generated_response %}
+                <p>Response: {{ generated_response }}</p>
+                {% endif %}
+            </div>
+
+            <div id="tts" {{ "style='display:none;'" if not tts_on else "" }}>
+                <audio controls autoplay>
+                    <source src="{{ url_for('static', filename='generated_tts/output.wav') }}" type="audio/wav">
+                </audio>
+            </div>
+
+        </div>
+        <div id="personalization">
+            <script src="{{ url_for('static', filename='personalization.js') }}"></script>
+            <div id="size-changer">
+                <h1 class="text-size-label">Text Size</h1>
+                <button id="enlarge">+</button>
+                <button id="smaller">--</button>
+
+            </div>
+
+            <div id="color-picker">
+                <h1 class="text-size-label">Background Color</h1>
+                <!-- <button id="red" onclick=""></button>
+                <button id="blue" onclick=""></button>
+                <button id="green" onclick=""></button>
+                <button id="yellow" onclick=""></button> -->
+                <button id="change-color">Click to change color</button>
+            </div>
+
+            <div id="feature-ticker">
+                <h1 class="text-size-label">Active Features</h1>
+                <label id="pred" class="checkmark">Next word prediction
+                    <input type="checkbox" id="pred_check" {{ "checked" if predictions_on else "" }}>
+                </label>
+
+                <label id="tts" class="checkmark">Text-to-speech
+                    <input type="checkbox" id="tts_check" {{ "checked" if tts_on else "" }}>
+                </label>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

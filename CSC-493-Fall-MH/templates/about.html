@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='get_saved_preferences.js') }}"></script>
+    <title>About Voice Bridge</title>
+</head>
+<style>
+    body {
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+    }
+
+    header, section, footer {
+        margin-bottom: 20px;
+    }
+    .hah1{
+        padding: 0;
+    }
+
+    header h1 {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+</style>
+<body>
+    <div class="navigation-container">
+        <nav class="navigation-menu">
+            <div class="navigation-menu__overlay" onclick="toggleMenuClicked()"></div>
+            <button type="button" class="hamburger-menu" onclick="toggleMenuClicked()">
+                <span class="material-icons" id="open-icon">menu</span>
+                <span class="material-icons" id="close-icon">close</span>
+            </button>
+            <h1 class="site-identity-logo">Voice Bridge</h1>
+            <section class="navigation-menu__labels">
+                <a href="home.html"><button type="button">Home</button></a>
+                <a href="about.html"><button type="button">About</button></a>
+                <a href="resources.html"><button type="button">Resources</button></a>
+                <a href="faq.html"><button type="button">FAQ</button></a>
+            </section>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h1 class="hah1">About Voice Bridge</h1>
+    <h3 class="hah3">Bridging the gap of communication barriers</h3>
+    <section>
+        <h2>Our Mission</h2>
+        <p>Our chatbot is designed with a mission to empower nonverbal communicators, especially individuals with autism, to express themselves more freely and effectively. We believe in fostering inclusive communication and providing a supportive digital tool for those who face challenges in verbal expression.</p>
+    </section>
+
+    <section>
+        <h2>Key Features</h2>
+        <ul>
+            <li><strong>Expressive Communication:</strong> The chatbot facilitates expressive communication through various mediums, including text, images, and symbols.</li>
+            <li><strong>Artificial Intelligence:</strong> Powered by advanced AI and natural language processing, the chatbot adapts to individual communication styles and preferences.</li>
+            <li><strong>Customization:</strong> Tailor the chatbot to suit individual needs, allowing users to personalize their communication experience.</li>
+            <li><strong>Support for Autism:</strong> Specifically designed to support individuals on the autism spectrum, the chatbot addresses the unique challenges faced by nonverbal communicators.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>How It Works</h2>
+        <p>The chatbot operates by understanding and interpreting user input, providing a platform for meaningful communication. Users can input text, choose from a selection of images and symbols, and customize the chatbot to align with their communication preferences. It is not a replacement for human interaction or therapy but aims to complement and enhance the communication experience.</p>
+    </section>
+
+    <section>
+        <h2>Feedback and Support</h2>
+        <p>We value user feedback as it helps us improve and refine the chatbot's functionality. Users can provide feedback or report issues through designated channels within the web app. Our team is dedicated to ensuring a positive and supportive experience for all users.</p>
+    </section>
+
+</body>
+</html>
