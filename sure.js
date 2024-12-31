@@ -42,3 +42,31 @@ describe('HomePage Component', () => {
   });
 
 });
+
+
+
+
+import { render, screen, fireEvent } from '@testing-library/react';
+import HomePage from './HomePage';
+import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from 'react-icons/md';
+
+describe('HomePage Component', () => {
+
+  test('clicking "Select Projects" toggles the arrow icon', () => {
+    render(<HomePage />);
+    
+    // Initially, check if the down arrow icon is displayed
+    const arrowDownIcon = screen.getByTestId('arrow-icon');
+    expect(arrowDownIcon).toBeInTheDocument();
+    expect(arrowDownIcon).toHaveClass('down'); // assuming you have a way to differentiate icons
+
+    // Simulate clicking on "Select Projects"
+    fireEvent.click(screen.getByText('Select Projects'));
+
+    // After clicking, check if the up arrow icon is displayed
+    const arrowUpIcon = screen.getByTestId('arrow-icon');
+    expect(arrowUpIcon).toBeInTheDocument();
+    expect(arrowUpIcon).toHaveClass('up'); // assuming the class for the up icon is 'up'
+  });
+
+});
