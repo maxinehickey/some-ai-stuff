@@ -1,13 +1,12 @@
-test('calls handleLogin function on successful login', async () => {
-  const handleLogin = jest.fn();
-  
-  render(<Login onLogin={handleLogin} />);
+test('logs in successfully with correct credentials', async () => {
+  render(<Login />);
 
   fireEvent.change(screen.getByPlaceholderText('User Name'), { target: { value: 'correctuser' } });
   fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'correctpass' } });
   fireEvent.click(screen.getByText('Login'));
 
+  // Wait for any UI change that signifies a successful login, like showing a success message or redirecting
   await waitFor(() => {
-    expect(handleLogin).toHaveBeenCalledWith('correctuser', 'correctpass');
+    expect(screen.getByText('Login successful')).toBeInTheDocument();
   });
 });
