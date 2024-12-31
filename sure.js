@@ -1,74 +1,68 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Homepage from './Homepage';
+import HomePage from './HomePage';
+import CollapsibleBar from '../../common-component/collapsible-bar/CollapsibleBar'; // Adjust path as needed
+import ScheduledTests from '/scheduled-tests/Scheduledtests'; // Adjust path as needed
+import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from 'react-icons/md';
 
-describe('Extended Tests for Homepage Component', () => {
-  beforeEach(() => {
-    render(<Homepage />);
+// Mocking the child components
+jest.mock('../../common-component/collapsible-bar/CollapsibleBar', () => {
+  return {
+    __esModule: true,
+    default: ({ children }) => <div>{children}</div>, // Mocked CollapsibleBar renders children
+  };
+});
+
+jest.mock('/scheduled-tests/Scheduledtests', () => {
+  return {
+    __esModule: true,
+    default: () => <div>Mocked ScheduledTests</div>,
+  };
+});
+
+describe('HomePage Component', () => {
+
+  test('renders HomePage without crashing', () => {
+    render(<HomePage />);
+    expect(screen.getByText(/Home/i)).toBeInTheDocument();
   });
 
-  test('should render the title of the page', () => {
-    const titleElement = screen.getByText(/welcome to my website/i);
-    expect(titleElement).toBeInTheDocument();
+  test('renders CollapsibleBar component', () => {
+    render(<HomePage />);
+    expect(screen.getByText(/Mocked ScheduledTests/i)).toBeInTheDocument();
   });
 
-  test('should render a navigation menu with accessible links', () => {
-    const navLinks = screen.getAllByRole('link');
-    expect(navLinks).toHaveLength(3); // Verify the number of links
-    navLinks.forEach((link) => {
-      expect(link).toBeVisible();
-      expect(link).toHaveAccessibleName(); // Ensures ARIA compliance
-    });
+  test('toggles collapse on Select Projects click', () => {
+    render(<HomePage />);
+    
+    // Assuming there's an element with the text "Select Projects"
+    const toggleElement = screen.getByText(/Select Projects/i);
+    
+    // Initially, "Select Projects" should be rendered
+    expect(toggleElement).toBeInTheDocument();
+    
+    // Simulate click to expand the section
+    fireEvent.click(toggleElement);
+    
+    // After clicking, the CollapsibleBar should be visible
+    expect(screen.getByText(/Mocked ScheduledTests/i)).toBeInTheDocument();
   });
 
-  test('should validate the href of each navigation link', () => {
-    const aboutLink = screen.getByText(/about/i).closest('a');
-    const servicesLink = screen.getByText(/services/i).closest('a');
-    const contactLink = screen.getByText(/contact/i).closest('a');
+  test('shows arrow down initially and changes to arrow up on click', () => {
+    render(<HomePage />);
+    
+    const arrowDown = screen.getByText(MdOutlineKeyboardArrowDown);
+    const arrowUp = screen.queryByText(MdOutlineKeyboardArrowUp);
 
-    expect(aboutLink).toHaveAttribute('href', '/about');
-    expect(servicesLink).toHaveAttribute('href', '/services');
-    expect(contactLink).toHaveAttribute('href', '/contact');
+    // Initially, the arrow down icon should be visible
+    expect(arrowDown).toBeInTheDocument();
+    expect(arrowUp).not.toBeInTheDocument();
+    
+    // Simulate click to expand the section
+    fireEvent.click(screen.getByText(/Select Projects/i));
+
+    // After expanding, the arrow up icon should appear
+    expect(screen.getByText(MdOutlineKeyboardArrowUp)).toBeInTheDocument();
+    expect(screen.queryByText(MdOutlineKeyboardArrowDown)).not.toBeInTheDocument();
   });
-
-  test('should display a button that triggers an alert on click', () => {
-    const buttonElement = screen.getByRole('button', { name: /click me/i });
-    expect(buttonElement).toBeInTheDocument();
-
-    window.alert = jest.fn();
-    fireEvent.click(buttonElement);
-    expect(window.alert).toHaveBeenCalledWith('Button clicked!');
-  });
-
-  test('should not crash and render properly', () => {
-    const { container } = render(<Homepage />);
-    expect(container).toMatchSnapshot();
-  });
-
-  test('should have accessible main container for ARIA compliance', () => {
-    const mainContainer = screen.getByRole('main', { hidden: true });
-    expect(mainContainer).toBeInTheDocument();
-  });
-
-  test('should handle missing elements gracefully', () => {
-    const nonExistentElement = screen.queryByText(/does not exist/i);
-    expect(nonExistentElement).toBeNull(); // Ensure it’s not rendered
-  });
-
-  test('should validate semantic structure', () => {
-    const headerElement = screen.getByRole('heading', { level: 1 });
-    expect(headerElement).toBeInTheDocument();
-    expect(headerElement.tagName).toBe('H1');
-  });
-
-  test('should display the correct title in the document head', () => {
-    document.title = 'Welcome to My Website'; // Simulate setting title in <head>
-    expect(document.title).toBe('Welcome to My Website');
-  });
-
-  test('should maintain focus when the button is clicked', () => {
-    const buttonElement = screen.getByRole('button', { name: /click me/i });
-    buttonElement.focus();
-    fireEvent.click(buttonElement);
-    expect(buttonElement).toHaveFocus();
-  });
+  
 });
