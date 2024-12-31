@@ -1,16 +1,21 @@
 test('logs in successfully with correct credentials', async () => {
-  mockLogin.mockResolvedValueOnce({ success: true }); // Simulate successful login
+  // Simulate a successful login response from mockLogin
+  mockLogin.mockResolvedValueOnce({ success: true });
 
   render(<Login />);
-  
-  // Simulating the user typing correct credentials
+
+  // Simulate user entering correct credentials
   fireEvent.change(screen.getByPlaceholderText('User Name'), { target: { value: 'correctuser' } });
   fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'correctpass' } });
   fireEvent.click(screen.getByText('Login'));
 
-  // Waiting for async operations and verifying behavior
+  // Wait for async operations and check the expected behavior
   await waitFor(() => {
-    expect(mockLogin).toHaveBeenCalledWith('correctuser', 'correctpass'); // Verify credentials passed to login
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard'); // Verify navigation to the dashboard
+    // Ensure the login function was called with the correct credentials
+    expect(mockLogin).toHaveBeenCalledWith('correctuser', 'correctpass');
+    expect(mockLogin).toHaveBeenCalledTimes(1); // Ensure login is only called once
+
+    // Ensure navigation occurs to the expected route (e.g., dashboard)
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 });
