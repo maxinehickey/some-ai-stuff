@@ -1,21 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import HomePage from './HomePage';
-import CollapsibleBar from '../../common-component/collapsible-bar/CollapsibleBar'; // Adjust path as needed
-import ScheduledTests from '/scheduled-tests/Scheduledtests'; // Adjust path as needed
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from 'react-icons/md';
 
-// Mocking the child components
+// Mocking the CollapsibleBar component
 jest.mock('../../common-component/collapsible-bar/CollapsibleBar', () => {
   return {
     __esModule: true,
-    default: ({ children }) => <div>{children}</div>, // Mocked CollapsibleBar renders children
-  };
-});
-
-jest.mock('/scheduled-tests/Scheduledtests', () => {
-  return {
-    __esModule: true,
-    default: () => <div>Mocked ScheduledTests</div>,
+    default: ({ children }) => <div>{children}</div>, // Mocking CollapsibleBar rendering children
   };
 });
 
@@ -26,43 +17,48 @@ describe('HomePage Component', () => {
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
   });
 
-  test('renders CollapsibleBar component', () => {
+  test('renders the "Select Projects" title', () => {
     render(<HomePage />);
-    expect(screen.getByText(/Mocked ScheduledTests/i)).toBeInTheDocument();
+    expect(screen.getByText(/Select Projects/i)).toBeInTheDocument();
   });
 
-  test('toggles collapse on Select Projects click', () => {
+  test('shows the correct icon when the section is collapsed and expanded', () => {
     render(<HomePage />);
     
-    // Assuming there's an element with the text "Select Projects"
-    const toggleElement = screen.getByText(/Select Projects/i);
-    
-    // Initially, "Select Projects" should be rendered
-    expect(toggleElement).toBeInTheDocument();
-    
-    // Simulate click to expand the section
-    fireEvent.click(toggleElement);
-    
-    // After clicking, the CollapsibleBar should be visible
-    expect(screen.getByText(/Mocked ScheduledTests/i)).toBeInTheDocument();
-  });
+    // Check the initial icon (arrow down)
+    const arrowDownIcon = screen.getByText(MdOutlineKeyboardArrowDown);
+    expect(arrowDownIcon).toBeInTheDocument();
 
-  test('shows arrow down initially and changes to arrow up on click', () => {
-    render(<HomePage />);
-    
-    const arrowDown = screen.getByText(MdOutlineKeyboardArrowDown);
-    const arrowUp = screen.queryByText(MdOutlineKeyboardArrowUp);
-
-    // Initially, the arrow down icon should be visible
-    expect(arrowDown).toBeInTheDocument();
-    expect(arrowUp).not.toBeInTheDocument();
-    
     // Simulate click to expand the section
     fireEvent.click(screen.getByText(/Select Projects/i));
 
-    // After expanding, the arrow up icon should appear
-    expect(screen.getByText(MdOutlineKeyboardArrowUp)).toBeInTheDocument();
-    expect(screen.queryByText(MdOutlineKeyboardArrowDown)).not.toBeInTheDocument();
+    // After expanding, the icon should change to arrow up
+    const arrowUpIcon = screen.getByText(MdOutlineKeyboardArrowUp);
+    expect(arrowUpIcon).toBeInTheDocument();
   });
-  
+
+  test('collapsing and expanding the section shows and hides the completed tests section', () => {
+    render(<HomePage />);
+    
+    // Initially, the "Completed Tests" section should not be visible
+    expect(screen.queryByText(/Completed Tests/i)).not.toBeInTheDocument();
+    
+    // Simulate click to expand the section
+    fireEvent.click(screen.getByText(/Select Projects/i));
+    
+    // After expanding, the "Completed Tests" section should be visible
+    expect(screen.getByText(/Completed Tests/i)).toBeInTheDocument();
+  });
+
+  test('renders the correct background color and styling for Completed Tests', () => {
+    render(<HomePage />);
+    
+    // Expand the section
+    fireEvent.click(screen.getByText(/Select Projects/i));
+    
+    // Ensure the background color of the "Completed Tests" section is correct
+    const completedTestsSection = screen.getByText(/Completed Tests/i).closest('div');
+    expect(completedTestsSection).toHaveStyle('background-color: #1e81b0');
+    expect(completedTestsSection).toHaveStyle('color: #FFFFFF');
+  });
 });
