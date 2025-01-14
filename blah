@@ -1,27 +1,44 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import CommonBody from './CommonBody';  // Adjust the import path if necessary
+import { render, screen, fireEvent } from '@testing-library/react';
+import CommonPage from './CommonPage';
+import Navbar from './Navbar'; // Importing Navbar to mock it
 
-describe('CommonBody Component', () => {
-  test('renders without crashing', () => {
-    const { container } = render(<CommonBody />);
-    expect(container).toBeInTheDocument();
+// Mock the Navbar component since we're more interested in testing the CommonPage logic
+jest.mock('./Navbar', () => ({ toggleNavbarDiv }) => (
+  <div>
+    <button onClick={() => toggleNavbarDiv(true)}>Open Navbar</button>
+    <button onClick={() => toggleNavbarDiv(false)}>Close Navbar</button>
+  </div>
+));
+
+describe('CommonPage Component', () => {
+  test('renders the Navbar and handles toggling', () => {
+    const SampleComponent = <div>Sample Component Content</div>;
+
+    render(<CommonPage component={SampleComponent} />);
+
+    // Initially, the 'homePageWithNavbarDiv' class should be applied (assuming navbar is closed)
+    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageWithNavbarDiv');
+    
+    // Simulate clicking the "Open Navbar" button
+    fireEvent.click(screen.getByText('Open Navbar'));
+
+    // After opening the navbar, the 'homePageDiv' class should be applied
+    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageDiv');
+
+    // Simulate clicking the "Close Navbar" button
+    fireEvent.click(screen.getByText('Close Navbar'));
+
+    // After closing the navbar, the 'homePageWithNavbarDiv' class should be applied again
+    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageWithNavbarDiv');
   });
 
-  test('displays the correct header text', () => {
-    const { getByText } = render(<CommonBody />);
-    expect(getByText('Performance Engineering')).toBeInTheDocument();
-  });
+  test('renders passed component correctly', () => {
+    const SampleComponent = <div>Another Component</div>;
 
-  test('renders LogoutButton component', () => {
-    const { getByTestId } = render(<CommonBody />);
-    const logoutButton = getByTestId('logoutButton');
-    expect(logoutButton).toBeInTheDocument();
-  });
+    render(<CommonPage component={SampleComponent} />);
 
-  test('renders Navbar component', () => {
-    const { getByTestId } = render(<CommonBody />);
-    const navbar = getByTestId('navbar');
-    expect(navbar).toBeInTheDocument();
+    // Ensure that the passed component renders correctly
+    expect(screen.getByText('Another Component')).toBeInTheDocument();
   });
 });
