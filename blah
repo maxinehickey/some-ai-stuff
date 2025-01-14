@@ -1,0 +1,27 @@
+import React from 'react';
+import { render } from '@testing-library/react';
+import CommonBody from './CommonBody';  // Adjust the import path if necessary
+
+describe('CommonBody Component', () => {
+  test('renders without crashing', () => {
+    const { container } = render(<CommonBody />);
+    expect(container).toBeInTheDocument();
+  });
+
+  test('displays the correct header text', () => {
+    const { getByText } = render(<CommonBody />);
+    expect(getByText('Performance Engineering')).toBeInTheDocument();
+  });
+
+  test('renders LogoutButton component', () => {
+    const { getByTestId } = render(<CommonBody />);
+    const logoutButton = getByTestId('logoutButton');
+    expect(logoutButton).toBeInTheDocument();
+  });
+
+  test('renders Navbar component', () => {
+    const { getByTestId } = render(<CommonBody />);
+    const navbar = getByTestId('navbar');
+    expect(navbar).toBeInTheDocument();
+  });
+});
