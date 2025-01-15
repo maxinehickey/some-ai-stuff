@@ -1,44 +1,113 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import CommonPage from './CommonPage';
-import Navbar from './Navbar'; // Importing Navbar to mock it
+import SimpleTestConfiguration from './SimpleTestConfiguration'; // Adjust the import path as needed
 
-// Mock the Navbar component since we're more interested in testing the CommonPage logic
-jest.mock('./Navbar', () => ({ toggleNavbarDiv }) => (
-  <div>
-    <button onClick={() => toggleNavbarDiv(true)}>Open Navbar</button>
-    <button onClick={() => toggleNavbarDiv(false)}>Close Navbar</button>
-  </div>
-));
+// Test 1: Verify Default Form State
+test('renders the form with default values', () => {
+  render(<SimpleTestConfiguration />);
 
-describe('CommonPage Component', () => {
-  test('renders the Navbar and handles toggling', () => {
-    const SampleComponent = <div>Sample Component Content</div>;
+  // Check if the "Application Name" input field is rendered
+  expect(screen.getByLabelText(/Application Name:/i)).toBeInTheDocument();
 
-    render(<CommonPage component={SampleComponent} />);
+  // Check if the "Scenario Name" input field is rendered
+  expect(screen.getByLabelText(/Scenario Name:/i)).toBeInThepDolcument();
 
-    // Initially, the 'homePageWithNavbarDiv' class should be applied (assuming navbar is closed)
-    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageWithNavbarDiv');
-    
-    // Simulate clicking the "Open Navbar" button
-    fireEvent.click(screen.getByText('Open Navbar'));
+  // Check if the "Test Type" dropdown is rendered
+  const testTypeSelect = screen.getByLabelText(/Test Type:/i);
+  expect(testTypeSelect).toBeInTheDocument();
 
-    // After opening the navbar, the 'homePageDiv' class should be applied
-    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageDiv');
+  // Check the default value of the "Test Type" dropdown
+  expect(testTypeSelect.value).toBe('smoke_test');
 
-    // Simulate clicking the "Close Navbar" button
-    fireEvent.click(screen.getByText('Close Navbar'));
+  // Check if the "Save Config" button is rendered
+  expect(screen.getByRole('button', { name: /Save Config/i })).toBeInTheDocument();
+});
 
-    // After closing the navbar, the 'homePageWithNavbarDiv' class should be applied again
-    expect(screen.getByText('Sample Component Content')).toHaveClass('homePageWithNavbarDiv');
-  });
+// Test 2: Test Validation on Form Submission (No Test Type Selected)
+global.alert = jest.fn(); // Mock the alert function
 
-  test('renders passed component correctly', () => {
-    const SampleComponent = <div>Another Component</div>;
+test('shows alert if no test type is selected', () => {
+  render(<SimpleTestConfiguration />);
 
-    render(<CommonPage component={SampleComponent} />);
+  // Fill in the required fields
+  fireEvent.change(screen.getByLabelText(/Application Name:/i), { target: { value: 'App1' } });
+  fireEvent.change(screen.getByLabelText(/Scenario Name:/i), { target: { value: 'Scenario1' } });
 
-    // Ensure that the passed component renders correctly
-    expect(screen.getByText('Another Component')).toBeInTheDocument();
-  });
+  // Submit the form
+  fireEvent.submit(screen.getByRole('button', { name: /Save Config/i }));
+
+  // Assert that the alert is called with the expected message
+  expect(global.alert).toHaveBeenCalledWith('Please select the type of test');
+});
+
+// Test 3: Test Form Submission with Valid Inputs
+jest.mock('./foraltil', () => ({
+  handleForm: jest.fn(),
+  mapData: jest.fn(),
+}));
+
+test('submits form with valid inputs', () => {
+  render(<SimpleTestConfiguration />);
+
+  // Fill in the required fields
+  fireEvent.change(screen.getByLabelText(/Application Name:/i), { target: { value: 'App1' } });
+  fireEvent.change(screen.getByLabelText(/Scenario Name:/i), { target: { value: 'Scenario1' } });
+
+  // Select a test type
+  fireEvent.change(screen.getByLabelText(/Test Type:/i), { target: { value: 'peak_test' } });
+
+  // Submit the form
+  fireEvent.submit(screen.getByRole('button', { name: /Save Config/i }));
+
+  // Check if the handleForm function is called after submitting the form
+  expect(require('./foraltil').handleForm).toHaveBeenCalled();
+  expect(require('./foraltil').mapData).toHaveBeenCalledWith("test type", 'peak_test');
+});
+
+// Test 4: Test that the Dropdown Changes the Test Type Value
+test('dropdown changes the test type value', () => {
+  render(<SimpleTestConfiguration />);
+
+  const testTypeSelect = screen.getByLabelText(/Test Type:/i);
+
+  // Select a different test type
+  fireEvent.change(testTypeSelect, { target: { value: 'peak_test' } });
+
+  // Check if the value of the dropdown has been updated
+  expect(testTypeSelect.value).toBe('peak_test');
+});
+
+// Test 5: Test Form Submission with Invalid Inputs (Empty Fields)
+global.alert = jest.fn(); // Mock the alert function
+
+test('does not submit with empty required fields', () => {
+  render(<SimpleTestConfiguration />);
+
+  // Leave the required fields empty
+  fireEvent.change(screen.getByLabelText(/Application Name:/i), { target: { value: '' } });
+  fireEvent.change(screen.getByLabelText(/Scenario Name:/i), { target: { value: '' } });
+
+  // Select a test type
+  fireEvent.change(screen.getByLabelText(/Test Type:/i), { target: { value: 'peak_test' } });
+
+  // Submit the form
+  fireEvent.submit(screen.getByRole('button', { name: /Save Config/i }));
+
+  // Assert that the alert function is called for empty required fields
+  expect(global.alert).toHaveBeenCalledWith('Please select the type of test');
+});
+
+// Test 6: Test the Test Type Dropdown Options
+test('renders the test type dropdown options', () => {
+  render(<SimpleTestConfiguration />);
+
+  const testTypeSelect = screen.getByLabelText(/Test Type:/i);
+
+  // Check the dropdown options
+  const options = screen.getAllByRole('option');
+  expect(options).toHaveLength(5); // Including the disabled "Select Test Type" option
+  
+  expect(options[1]).toHaveTextContent('Smoke Test - 200 to 300 User - 1 LG');
+  expect(options[2]).toHaveTextContent('Peak Test - 1k to 1.5k User - 4 to 5 LGs');
+  expect(options[3]).toHaveTextContent('Stress Test - 500 to 2k User - 3 to 4 LGs');
+  expect(options[4]).toHaveTextContent('Load Test - 400 to 600 User - 2 to 3 LGs');
 });
