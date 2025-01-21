@@ -1,25 +1,26 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import TestSummary from "./TestSummary";
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import CollapsibleBar from './CollapsibleBar';
 
-describe("TestSummary Component", () => {
-  it("renders the collapsible bar", () => {
-    render(<TestSummary />);
-    const barTitle = screen.getByText(/Filter Reports/i);
-    expect(barTitle).toBeInTheDocument();
+describe('CollapsibleBar Component', () => {
+  test('renders the bar title', () => {
+    render(<CollapsibleBar barTitle="Test Title" />);
+    expect(screen.getByText('Test Title')).toBeInTheDocument();
   });
 
-  it("opens and closes the modal", () => {
-    render(<TestSummary />);
+  test('toggles content visibility on click', () => {
+    render(
+      <CollapsibleBar 
+        barTitle="Test Title" 
+        component={<div>Collapsible Content</div>} 
+      />
+    );
 
-    // Simulate opening the modal
-    const barTitle = screen.getByText(/Filter Reports/i);
-    fireEvent.click(barTitle); // Simulate clicking the collapsible bar to trigger the modal
-    const modal = screen.getByRole("dialog"); // Ensure the modal is now in the document
-    expect(modal).toBeInTheDocument();
+    const bar = screen.getByText('Test Title');
+    fireEvent.click(bar);
+    expect(screen.getByText('Collapsible Content')).toBeInTheDocument();
 
-    // Simulate closing the modal
-    const closeButton = screen.getByRole("button", { name: /close/i });
-    fireEvent.click(closeButton);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument(); // Modal should not be present
+    fireEvent.click(bar);
+    expect(screen.queryByText('Collapsible Content')).not.toBeInTheDocument();
   });
 });
