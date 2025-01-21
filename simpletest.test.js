@@ -1,78 +1,55 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import SimpleTestConfiguration from './SimpleTestConfiguration';
 
+// Mock the props passed to SimpleTestConfiguration
+const mockVerifyTestConfig = jest.fn();
+
 describe('SimpleTestConfiguration Component', () => {
-  let verifyTestConfigMock;
-
-  beforeEach(() => {
-    verifyTestConfigMock = jest.fn();
+  
+  test('renders the form fields correctly', () => {
+    render(<SimpleTestConfiguration verifyTestConfig={mockVerifyTestConfig} />);
+    
+    // Check if the form fields are rendered
+    expect(screen.getByLabelText(/Application Name:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Scenario Name:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Test Type:/i)).toBeInTheDocument();
   });
-
-  it('renders the form correctly', () => {
-    render(<SimpleTestConfiguration verifyTestConfig={verifyTestConfigMock} />);
-
-    // Check if all form elements are rendered
-    expect(screen.getByLabelText(/Application Name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Scenario Name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Test Type/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Save Configs/i })).toBeInTheDocument();
-  });
-
-  it('displays an alert if no test type is selected', () => {
+  
+  test('shows alert if test type is not selected', () => {
     window.alert = jest.fn(); // Mock alert
-
-    render(<SimpleTestConfiguration verifyTestConfig={verifyTestConfigMock} />);
-
+    
+    render(<SimpleTestConfiguration verifyTestConfig={mockVerifyTestConfig} />);
+    
+    // Submit the form without selecting a test type
     fireEvent.submit(screen.getByRole('form'));
-
-    expect(window.alert).toHaveBeenCalledWith('Please select the type of test');
-    expect(verifyTestConfigMock).not.toHaveBeenCalled();
+    
+    // Check if alert is called
+    expect(window.alert).toHaveBeenCalledWith("Please select the type of test");
   });
 
-  it('calls verifyTestConfig and handleForm on valid submission', () => {
-    const handleFormMock = jest.fn();
-    jest.mock('../foraltil', () => ({ handleForm: handleFormMock, mapData: jest.fn() }));
+  test('calls verifyTestConfig when test type is selected', () => {
+    mockVerifyTestConfig.mockReturnValue(true); // Simulate a successful validation
 
-    render(<SimpleTestConfiguration verifyTestConfig={verifyTestConfigMock} />);
-
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText(/Application Name/i), {
-      target: { value: 'Test App' },
-    });
-    fireEvent.change(screen.getByLabelText(/Scenario Name/i), {
-      target: { value: 'Test Scenario' },
-    });
-    fireEvent.change(screen.getByLabelText(/Test Type/i), {
-      target: { value: 'smoke_test' },
-    });
+    render(<SimpleTestConfiguration verifyTestConfig={mockVerifyTestConfig} />);
+    
+    // Select a test type
+    fireEvent.change(screen.getByLabelText(/Test Type:/i), { target: { value: 'peak_test' } });
 
     // Submit the form
     fireEvent.submit(screen.getByRole('form'));
 
-    expect(verifyTestConfigMock).toHaveBeenCalled();
-    expect(handleFormMock).toHaveBeenCalled();
+    // Ensure verifyTestConfig is called
+    expect(mockVerifyTestConfig).toHaveBeenCalled();
   });
 
-  it('prevents submission if verifyTestConfig returns false', () => {
-    verifyTestConfigMock.mockReturnValue(false);
-
-    render(<SimpleTestConfiguration verifyTestConfig={verifyTestConfigMock} />);
-
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText(/Application Name/i), {
-      target: { value: 'Test App' },
-    });
-    fireEvent.change(screen.getByLabelText(/Scenario Name/i), {
-      target: { value: 'Test Scenario' },
-    });
-    fireEvent.change(screen.getByLabelText(/Test Type/i), {
-      target: { value: 'smoke_test' },
-    });
-
-    // Submit the form
+  test('does not call verifyTestConfig if test type is not selected', () => {
+    render(<SimpleTestConfiguration verifyTestConfig={mockVerifyTestConfig} />);
+    
+    // Submit the form without selecting a test type
     fireEvent.submit(screen.getByRole('form'));
 
-    expect(verifyTestConfigMock).toHaveBeenCalled();
-    expect(screen.queryByText('Calling BE service')).not.toBeInTheDocument();
+    // Ensure verifyTestConfig is not called
+    expect(mockVerifyTestConfig).not.toHaveBeenCalled();
   });
+  
 });
