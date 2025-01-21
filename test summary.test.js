@@ -2,63 +2,49 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import TestManagementPage from "./TestManagementPage";
 
-// Mock the API service
-jest.mock("../../api-service/portalApiService", () => ({
-  fetchTestConfig: jest.fn(() =>
-    Promise.resolve({
-      project: "Sample Project",
-      application_name: "Sample Application",
-      scenario_name: "Sample Scenario",
-      test_type: "Smoke Test",
-      test_duration: "5 mins",
-      user_count: 100,
-    })
-  ),
+jest.mock("../../api-service/portalApiservice", () => ({
+  fetchTestConfig: jest.fn(() => Promise.resolve({
+    project: "Test Project",
+    application_name: "Test App",
+    scenario_name: "Test Scenario",
+    test_type: "Smoke Test",
+    test_duration: "10 minutes",
+    user_count: 100,
+  })),
 }));
 
-// Mock the fetch function for the "Execute Test" button
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    status: 200,
-    json: () => Promise.resolve({ status: "success" }),
-  })
-);
-
 describe("TestManagementPage Component", () => {
-  it("renders the component with default test configuration", async () => {
+  test("renders test configuration fields with default values", async () => {
     render(<TestManagementPage />);
 
-    // Assert that the headings and labels are displayed
-    expect(screen.getByText("Test Information")).toBeInTheDocument();
-    expect(screen.getByText("Project Name:")).toBeInTheDocument();
-    expect(screen.getByText("Application Name:")).toBeInTheDocument();
-    expect(screen.getByText("Scenario Name:")).toBeInTheDocument();
-    expect(screen.getByText("Test type:")).toBeInTheDocument();
-
-    // Assert default values are rendered
-    expect(await screen.findByDisplayValue("Sample Project")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Sample Application")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Sample Scenario")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Smoke Test")).toBeInTheDocument();
+    // Check that the placeholder/default values are displayed
+    expect(screen.getByLabelText("Project Name:").value).toBe("Project");
+    expect(screen.getByLabelText("Application Name:").value).toBe("Application Name");
+    expect(screen.getByLabelText("Scenario Name:").value).toBe("Scenario Name");
+    expect(screen.getByLabelText("Test Type:").value).toBe("Test Type");
+    expect(screen.getByLabelText("Test Duration:").value).toBe("Test Duration");
+    expect(screen.getByLabelText("User Count:").value).toBe("User Count");
   });
 
-  it("executes the test when the Execute Test button is clicked", async () => {
+  test("updates test configuration fields with fetched values", async () => {
     render(<TestManagementPage />);
 
-    // Find the Execute Test button and click it
-    const executeTestButton = screen.getByValue("Execute Test");
-    fireEvent.click(executeTestButton);
+    // Wait for the test configuration to be fetched and updated
+    expect(await screen.findByDisplayValue("Test Project")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Test App")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Test Scenario")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Smoke Test")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("10 minutes")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("100")).toBeInTheDocument();
+  });
 
-    // Ensure the fetch call was made
-    expect(global.fetch).toHaveBeenCalledWith(
-      "http://localhost:8080/ptaf-self-service/push-to-repo",
-      expect.objectContaining({
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      })
-    );
+  test("calls the handleExecuteTest function when the button is clicked", () => {
+    const handleExecuteTestMock = jest.fn();
+    render(<TestManagementPage />);
+
+    const executeButton = screen.getByRole("button", { name: "Execute Test" });
+    fireEvent.click(executeButton);
+
+    expect(handleExecuteTestMock).toHaveBeenCalled();
   });
 });
