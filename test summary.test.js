@@ -12,13 +12,14 @@ describe("TestSummary Component", () => {
     render(<TestSummary />);
 
     // Simulate opening the modal
-    const handleTestSummary = jest.fn();
-    fireEvent.click(screen.getByText(/Filter Reports/i));
-    expect(handleTestSummary).toHaveBeenCalledTimes(1);
+    const barTitle = screen.getByText(/Filter Reports/i);
+    fireEvent.click(barTitle); // Simulate clicking the collapsible bar to trigger the modal
+    const modal = screen.getByRole("dialog"); // Ensure the modal is now in the document
+    expect(modal).toBeInTheDocument();
 
     // Simulate closing the modal
     const closeButton = screen.getByRole("button", { name: /close/i });
     fireEvent.click(closeButton);
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument(); // Modal should not be present
   });
 });
