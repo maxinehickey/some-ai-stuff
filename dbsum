@@ -1,150 +1,117 @@
-## **1. Introduction to Splunk Dashboards**
-- Dashboards provide a **single-pane view** of multiple visualizations.
-- Used for quick visual access to data.
-- Example data from **Buttercup Games** (fictional video game company).
+Key Points Discussed
 
----
+Finalizing Requirements for Pilot
 
-## **2. Types of Dashboards in Splunk**
-- **Classic Dashboards** (XML-based, traditional layout).
-- **Dashboard Studio** (JSON-based, modern UI with enhanced customization).
-- **Simple XML Dashboards** (Classic Dashboards with extended functionality via JavaScript, CSS, and HTML).
+The team is working on finalizing the requirements to prepare for the pilot phase, aiming to lock them in during this meeting.
 
----
+Due to time constraints, necessary changes must be made quickly before the pilot launch.
 
-## **3. Creating and Saving Dashboards**
-- Save searches as a **report, alert, or dashboard**.
-- Dashboards can be:
-  - **Private** (default)
-  - **Shared in App** (if role permissions allow)
-- Choose between **Classic Dashboard** or **Dashboard Studio**.
+Reviewing Different Design Approaches
 
----
+Three different design implementations were reviewed:
 
-## **4. Adding and Configuring Panels**
-### **Panel Types**
-- **Single-Value**
-- **Tables**
-- **Charts** (Bar, Line, Area, Pie)
-- **Maps**
-- **Custom Visualizations**
+Max’s version
 
-### **Dynamic Panels**
-- Use Splunk’s `postprocess` feature to refine data from an existing base search for better efficiency.
+Akshay’s version in React
 
-### **Drilldowns**
-- Link visualizations to **additional searches, reports, dashboards, or external URLs**.
+Another alternative approach
 
----
+The team will decide on the best design direction and possibly conduct another experiment.
 
-## **5. Customizing Dashboards**
-### **Editing Classic Dashboards**
-- Modify dashboards using the **Edit** button.
-- Options include:
-  - **Changing visualizations**
-  - **Editing drilldowns** (link to searches, reports, or external URLs)
-  - **Using tokens** to pass values dynamically
-- Add panels from:
-  - **Saved reports**
-  - **Cloned dashboards**
-  - **Prebuilt panels**
-- Add **interactive inputs**, such as a **time range picker** (must be linked to visualizations to work properly).
-- Supports **XML-based customization**.
+Mockups & Static Website Presentation
 
-### **Dashboard Studio (Modern Dashboarding)**
-- More **visual customization** via UI.
-- Supports **absolute (freeform) or grid layouts**.
-- Includes **backgrounds, shapes, and icons**.
-- Uses **JSON instead of XML**.
+A team member presented mockups (created without code) and an early version of a static website to showcase the UI improvements.
 
----
+Key UI enhancements include:
 
-## **6. Tokens and Interactivity**
-- **Token Usage**: Store values from user inputs (like dropdowns, time pickers) to dynamically update visualizations.
-- **Global vs. Local Tokens**: 
-  - **Global Tokens** apply across the entire dashboard.
-  - **Local Tokens** apply only to specific panels.
-- **Event Handlers**: Use `depends` and `rejects` attributes in XML dashboards to **show or hide panels dynamically**.
+Light and dark mode options
 
----
+Cleaner layout
 
-## **7. Configuring Data Sources**
-- Data sources power visualizations and can be modified within **Dashboard Studio**.
-- Data sources can be:
-  - **Linked** to multiple visualizations.
-  - **Unlinked** without deleting the search.
-  - **Deleted permanently** from the **Data Overview panel**.
+Easier test reruns
 
----
+Collapsible navigation bar for better screen real estate
 
-## **8. Performance Optimization**
-- **Base Searches**: Define a **single base search** and reference it across multiple panels to reduce search load.
-- **Scheduled Reports**: Cache results to improve dashboard speed instead of running live searches.
-- **Search Job Management**: Limit **real-time searches** and manage search concurrency for better responsiveness.
+Improved test scheduling and history view
 
----
+Placeholder for test trend graphs once real data is available
 
-## **9. Advanced Customization**
-- **Custom CSS & JavaScript**: Enhance dashboards by embedding custom styles and interactivity.
-- **Custom Visualization APIs**: Develop custom visualizations using **Splunk’s Visualization API**.
-- **Third-Party Integrations**: Connect with tools like **D3.js, Google Maps, or external databases**.
+Enhancing Developer Usability
 
----
+The UI should be intuitive not just for performance engineers but also for developers.
 
-## **10. Dashboard Permissions & Sharing**
-- **Role-Based Access Control (RBAC)**: Set view/edit permissions based on user roles.
-- **App-Specific Dashboards**: Restrict dashboards to specific Splunk apps.
-- **Public vs. Private Dashboards**: Control access levels within an app.
+Consider implementing a toggle for "Performance Engineer Mode" vs. "Developer Mode" to cater to different user needs.
 
----
+A brief introduction or welcome message should be added to the homepage to explain the tool’s purpose.
 
-## **11. Additional Features**
-- Export dashboards as **PDF, PNG, or print**.
-- Set dashboards as **home pages**.
-- Convert **Classic Dashboards** to **Dashboard Studio** (formatting may not always transfer perfectly).
+Contextual help files should be included on different pages (e.g., test management) to assist new users.
 
----
+Improving UI Clarity
 
-## **12. Monitoring & Troubleshooting**
-- **Debugging Dashboards**: Use the **Job Inspector** to check search execution times and optimize queries.
-- **Error Handling**: Use conditional statements to display error messages when no data is returned.
-- **Audit Usage**: Track dashboard usage with Splunk’s internal logs (`_internal` index).
+Certain elements (e.g., text at the top) should be made larger for better visibility.
 
----
+Consider adding tooltips that show descriptions when hovering over icons.
 
-General Questions About Dashboards
-What are the differences between Classic Dashboards and Dashboard Studio?
-Be prepared to discuss the XML-based structure of Classic Dashboards vs. the more modern, JSON-based configuration of Dashboard Studio. Highlight the customization capabilities of Dashboard Studio, like visual design, grid layouts, and the ability to embed icons and backgrounds.
-How do you optimize the performance of a Splunk dashboard?
-Talk about using base searches to reduce load, scheduled reports to precompute data, and search job management to limit real-time queries. You might also mention reducing the number of panels or limiting search concurrency.
-What types of visualizations can be included in Splunk dashboards?
-Be prepared to list panel types such as single-value, table, charts (bar, line, pie), maps, and custom visualizations. You can discuss which types are best suited for different types of data.
-Can you explain how tokens work in Splunk dashboards?
-Explain how tokens store values from user inputs like dropdowns or time pickers. Discuss the difference between global and local tokens and how they dynamically update visualizations.
-Customization and Interactivity
-How do you add interactivity to a Splunk dashboard?
-Mention using interactive inputs like time range pickers, dropdown menus, or checkboxes. You could also talk about drilldowns to link visualizations to other searches, reports, or dashboards.
-What are drilldowns, and how can they be used in dashboards?
-Drilldowns are links embedded in visualizations that allow users to interact with data by clicking on elements like bars, pie slices, or table entries to open more detailed views or other dashboards.
-How would you approach troubleshooting a slow-performing dashboard?
-Discuss using the Job Inspector to analyze search performance, optimizing queries, reducing unnecessary data sources, and leveraging base searches to avoid repetitive computations.
-Data Sources and Management
-How do you configure data sources in Splunk?
-Be prepared to explain how data sources are configured, either by linking them to visualizations or keeping them unlinked. You could also mention how they can be deleted or modified within Dashboard Studio.
-How do you handle data that doesn't return any results in a dashboard?
-Talk about implementing error handling with conditional statements that can show appropriate messages, such as "No data available," when no data is returned by a search.
-Permissions and Sharing
-How do you manage permissions for dashboards in Splunk?
-Discuss Role-Based Access Control (RBAC) for setting view/edit permissions based on user roles. You might also mention sharing options like making dashboards public, private, or shared within an app.
-Can dashboards be shared across different users or teams?
-Explain how dashboards can be shared with different users or teams via role permissions or by using the shared in app option.
-Advanced Topics
-What is the process for embedding custom CSS or JavaScript into a Splunk dashboard?
-Be ready to discuss how you can use custom CSS to style dashboards or JavaScript to add interactivity. Mention potential challenges when embedding these elements.
-Can you explain how third-party integrations, like D3.js or Google Maps, work in Splunk dashboards?
-Be prepared to talk about integrating third-party visualization tools or external databases and explain how these tools are used to enhance the visual appeal or data display in dashboards.
-Monitoring and Audit
-How do you monitor dashboard usage in Splunk?
-Explain how you can use Splunk's _internal index or logs to track and audit dashboard usage. Discuss how this data can be used for troubleshooting or optimization.
-How would you debug a dashboard that isn't displaying the expected data?
-Discuss the process of checking the search queries in the Job Inspector, ensuring proper tokens are used, and verifying that data sources are correctly linked.
+Dashboard Overview
+
+The landing page should provide:
+
+Total tests executed, success/failure rates.
+
+Time and effort saved via automation.
+
+Quick actions (start a test, view scheduled tests, configure tests).
+
+System health status (e.g., execution engine, reporting service).
+
+Recent activity log.
+
+Users should be able to configure tests from multiple access points.
+
+Test Execution & Management
+
+Users can select test parameters, devices, browsers, and additional configurations.
+
+Options to schedule tests (daily, weekly, etc.).
+
+Notifications (email, Teams, Confluence updates).
+
+Once a test is started:
+
+Logs will generate in real-time.
+
+Active tests will be displayed in the "Currently Running" section.
+
+Reports & Analysis
+
+Reports should include:
+
+Pass/fail rates, execution details, test duration.
+
+Graphical representation of test trends.
+
+Exportable reports (CSV, PDF).
+
+Future MVP iterations:
+
+Filters for report history (last 7 days, 30 days, etc.).
+
+Integration with NeoLoad Copilot for automated insights and recommendations.
+
+Technical Feasibility & Development Impact
+
+No major backend changes required for UI integration.
+
+Estimated timeline: 1–2 sprints for full integration.
+
+Decision on UI theme should not significantly impact the development roadmap.
+
+Next Steps
+
+Finalize the design approach based on feedback.
+
+Implement UI improvements, including tooltips, introduction text, and help files.
+
+Continue refining the static website and preparing for the pilot launch.
+
+Maintain a focus on user-friendliness while ensuring depth for performance engineers
