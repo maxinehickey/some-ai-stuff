@@ -1,55 +1,154 @@
+## **1. Overview of Alerts in Splunk**  
+- Alerts monitor machine data in real time to detect issues, errors, or security threats.  
+- Example Use Case: Detecting high failed login attempts on a web server.  
 
-#### **Overview of Alerts in Splunk**  
-- Alerts help monitor machine data in real-time to detect issues, errors, or attacks.  
-- Example: Detecting high failed login attempts on a web server.  
+---
 
-#### **Creating an Alert**  
-1. Run a search for relevant events (e.g., "failed" and "password" in security logs).  
-2. Click **"Save As" → "Alert"** and provide a title & optional description.  
-3. Set permissions (private or shared with other users).  
+## **2. Creating an Alert**  
+1. Run a search for relevant events (e.g., `"failed"` and `"password"` in security logs).  
+2. Click **"Save As" → "Alert"**, provide a title, and add an optional description.  
+3. Configure permissions (private or shared with other users).  
 
-#### **Alert Scheduling Options**  
-- **Scheduled Alerts**: Run on a defined schedule (hourly, daily, weekly, etc.) and trigger when search results meet specified criteria.  
-- **Real-time Alerts**: Continuously run in the background and trigger immediately when conditions are met (can strain resources).  
-- **Custom Scheduling**: Uses cron syntax to define specific times.  
+---
 
-#### **Trigger Conditions**  
-- Alerts can be triggered based on:  
-  - **Number of search results**  
-  - **Number of hosts or sources**  
-  - **Custom conditions**  
-- Example: Trigger alert when failed password attempts are **greater than 25**.  
+## **3. Alert Scheduling Options**  
+- **Scheduled Alerts**: Runs on a defined schedule (hourly, daily, weekly, etc.) and triggers when search results meet specified criteria.  
+- **Real-time Alerts**: Continuously runs in the background and triggers immediately when conditions are met (can strain resources).  
+- **Custom Scheduling**: Uses **cron syntax** to define specific execution times.  
 
-#### **Managing Alert Notifications**  
-- Default expiration: 24 hours (can be customized).  
-- **Throttle Option**: Prevents excessive alerts by suppressing them for a set time.  
-  - Example: Suppress for **30 minutes** to avoid alert spam.  
+---
 
-#### **Alert Actions**  
-When an alert is triggered, actions can include:  
-- **Adding to triggered alerts list**  
+## **4. Alert Trigger Conditions**  
+Alerts can be triggered based on:  
+- **Number of search results**  
+- **Number of unique hosts or sources**  
+- **Custom SPL conditions**  
+
+### **Examples**  
+- Alert when **failed password attempts > 25** in the last 5 minutes.  
+- Detect an increase of **50% in login failures** compared to the previous hour.  
+- Trigger an alert when **a user fails login attempts across multiple IPs** within 10 minutes (Stateful Alert).  
+
+---
+
+## **5. Managing Alert Notifications**  
+- **Default Expiration**: 24 hours (customizable).  
+- **Throttle Option**: Prevents excessive alerts by suppressing them for a set duration.  
+  - Example: **Suppress alerts for 30 minutes** to avoid spam.  
+
+---
+
+## **6. Alert Actions**  
+When an alert is triggered, possible actions include:  
+- **Adding to the triggered alerts list**  
 - **Logging an event to a Splunk receiver**  
 - **Outputting results to a lookup file**  
 - **Sending an email or mobile notification**  
-- **Executing a script**  
-- **Using a webhook for external notifications**  
-- Admins can install/custom alert actions via "Manage Actions".  
+- **Executing a script** (e.g., Python, shell scripts)  
+- **Using a webhook** to notify external systems  
+- **Triggering a workflow** (e.g., integrating with Splunk SOAR for automated remediation)  
+- **Forwarding alerts to third-party tools** like SIEMs (Splunk ES, ServiceNow, JIRA, Slack, Teams)  
 
-#### **Permissions & Visibility**  
-- Admins can set read/write permissions by **user role, app, or all apps**.  
-- Alerts can be shared across **all apps** or restricted to specific users.  
+📌 *Admins can install or create custom alert actions via "Manage Actions".*  
 
-#### **Viewing & Managing Alerts**  
+---
+
+## **7. Types of Alerts**  
+1. **Basic Alerts**: Triggered based on simple search results.  
+2. **Rolling Window Alerts**: Monitors a sliding time window (e.g., more than 10 failures in the last 5 minutes).  
+3. **Historical Alerts**: Evaluates past data trends to detect deviations.  
+4. **Correlation Alerts**: Uses multiple data sources to detect complex conditions.  
+
+---
+
+## **8. Permissions & Visibility**  
+- **Admins control permissions** by **user role, app, or all apps**.  
+- **Alerts can be shared** across all apps or restricted to specific users.  
+
+---
+
+## **9. Viewing & Managing Alerts**  
 - Navigate to **"Triggered Alerts"** under the **Activity menu** to see active alerts.  
 - Alerts can be filtered by **app, owner, severity, or title**.  
 - Manage alerts via:  
   - **Searches, Reports & Alerts** in **Settings**  
   - **Alerts tab in the respective app**  
-- Options include **editing, disabling, cloning, or deleting alerts**.  
+- Actions include **editing, disabling, cloning, or deleting alerts**.  
 
-#### **Example: Real-time Alert for Server Errors**  
-- **Search for HTTP 500 errors** in logs.  
-- Set alert type to **Real-time**.  
-- **Throttle results** to avoid spam (e.g., suppress for 30 mins).  
-- **Set severity to High** and **add to triggered alerts**.  
-- View results in **"Triggered Alerts"** under Activity.  
+---
+
+## **10. Example: Real-time Alert for Server Errors**  
+1. **Search for HTTP 500 errors** in logs.  
+2. **Set alert type** to Real-time.  
+3. **Throttle results** (e.g., suppress for 30 mins to avoid spam).  
+4. **Set severity to High** and **add to triggered alerts**.  
+5. **View results in "Triggered Alerts"** under Activity.  
+
+---
+
+## **11. Best Practices for Managing Alerts**  
+✅ **Reduce Noise**: Set appropriate thresholds and use throttling to prevent unnecessary alerts.  
+✅ **Use Summary Indexing**: Store summarized search results in a summary index for performance efficiency.  
+✅ **Group Alerts**: Instead of triggering an alert for each event, use summary reports to consolidate similar alerts.  
+✅ **Leverage Machine Learning (MLTK)**: Predict anomalies and create smarter alerts.  
+✅ **Tag & Categorize Alerts**: Helps in filtering and managing alerts effectively.  
+
+---
+
+## **12. Monitoring & Reviewing Alerts**  
+- **Alert Health Monitoring**: Check for failures or excessive alerts using Splunk’s internal logs (`index=_internal`).  
+- **Audit Logs**: Track who created, modified, or deleted alerts for compliance.  
+- **Performance Optimization**: Use **scheduled alerts** instead of real-time where possible to reduce resource consumption.  
+---
+
+### **1. Splunk Alerts & Monitoring**  
+🔹 **How do you create an alert in Splunk?**  
+✅ Walk through the steps: Run a search → Save as an alert → Set conditions → Configure actions.  
+
+🔹 **What are the differences between real-time and scheduled alerts?**  
+✅ Real-time alerts fire immediately but consume resources; scheduled alerts run at intervals.  
+
+🔹 **How can you prevent false positives or alert fatigue?**  
+✅ Use throttling, set proper thresholds, and leverage trend-based triggers.  
+
+🔹 **What are some common use cases for alerts in an enterprise setting?**  
+✅ Security monitoring (failed logins, brute force attacks), performance monitoring (server CPU spikes), and operational monitoring (disk space issues).  
+
+🔹 **How do you ensure Splunk alerts are actionable?**  
+✅ Define clear severity levels, send notifications to the right team, and automate response actions when possible.  
+
+---
+
+### **2. Performance Testing & Automation**  
+🔹 **What’s the purpose of performance testing?**  
+✅ Identify system bottlenecks, ensure scalability, and validate response times under load.  
+
+🔹 **How does your performance test automation framework work?**  
+✅ Discuss its key features, such as self-service test execution, minimal reliance on engineers, and CI/CD integration plans.  
+
+🔹 **How do you analyze performance test results?**  
+✅ Look at response times, error rates, throughput, and system resource utilization.  
+
+🔹 **How do you handle dynamic parameters in performance testing?**  
+✅ Use correlation and parameterization techniques.  
+
+🔹 **What strategies do you use to simulate real-world user load?**  
+✅ Use distributed load testing, randomize user behaviors, and mimic real-world traffic patterns.  
+
+---
+
+### **3. DevOps, CI/CD, and Agile**  
+🔹 **How does performance testing fit into CI/CD pipelines?**  
+✅ Automate tests in pre-prod environments, use synthetic monitoring, and integrate with observability tools.  
+
+🔹 **What are some best practices for alerting in a DevOps environment?**  
+✅ Define SLOs/SLAs, reduce noise with intelligent alerting, and integrate alerts into incident response workflows (PagerDuty, Slack, etc.).  
+
+🔹 **How do you monitor application health in a microservices architecture?**  
+✅ Use logs (Splunk), metrics (Prometheus/Grafana), and tracing (Jaeger, OpenTelemetry).  
+
+🔹 **How do you handle failed deployments in a CI/CD pipeline?**  
+✅ Rollback automatically, use feature flags, and implement canary releases.  
+
+🔹 **What’s the difference between observability and monitoring?**  
+✅ Monitoring tells you **what** is wrong; observability helps you understand **why** it’s happening (logs, metrics, traces).  
