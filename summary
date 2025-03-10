@@ -1,117 +1,55 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance Test Automation Framework</title>
-    <script src="https://unpkg.com/react@18.0.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18.0.0/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-        }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const App = () => {
-            return (
-                <div className="min-h-screen bg-gray-100">
-                    <div className="flex">
-                        {/* Sidebar */}
-                        <div className="w-64 bg-white shadow-md">
-                            <div className="p-4 border-b flex items-center">
-                                <button className="text-gray-700">
-                                    <i className="fas fa-bars"></i>
-                                </button>
-                            </div>
-                            <nav className="py-4">
-                                <ul>
-                                    <li className="px-6 py-3 text-gray-700 hover:bg-gray-100">
-                                        <a href="#" className="block">Home</a>
-                                    </li>
-                                    <li className="px-6 py-3 text-gray-700 hover:bg-gray-100">
-                                        <a href="#" className="block">Configuration</a>
-                                    </li>
-                                    <li className="px-6 py-3 text-gray-700 hover:bg-gray-100">
-                                        <a href="#" className="block">Test Management</a>
-                                    </li>
-                                    <li className="px-6 py-3 bg-gray-200 text-gray-700">
-                                        <a href="#" className="block">Test Summary</a>
-                                    </li>
-                                    <li className="px-6 py-3 text-gray-700 hover:bg-gray-100">
-                                        <a href="#" className="block">Test Trends</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+#### **Overview of Alerts in Splunk**  
+- Alerts help monitor machine data in real-time to detect issues, errors, or attacks.  
+- Example: Detecting high failed login attempts on a web server.  
 
-                        {/* Main Content */}
-                        <div className="flex-1">
-                            {/* Header */}
-                            <header className="bg-white shadow-sm p-4 flex justify-between items-center">
-                                <h1 className="text-xl text-gray-700 font-medium">Performance Test Automation Framework</h1>
-                                <div className="flex items-center space-x-4">
-                                    <div className="flex items-center">
-                                        <div className="w-12 h-6 bg-gray-200 rounded-full p-1 flex items-center">
-                                            <div className="w-4 h-4 bg-black rounded-full transform translate-x-6"></div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <span className="mr-2">Maxine Hickey</span>
-                                        <img src="https://placehold.co/40x40/f06292/ffffff?text=MH" alt="Profile picture of Maxine Hickey with short dark hair and a friendly smile" className="w-10 h-10 rounded-full" />
-                                    </div>
-                                </div>
-                            </header>
+#### **Creating an Alert**  
+1. Run a search for relevant events (e.g., "failed" and "password" in security logs).  
+2. Click **"Save As" → "Alert"** and provide a title & optional description.  
+3. Set permissions (private or shared with other users).  
 
-                            {/* Content */}
-                            <main className="p-6">
-                                <h2 className="text-xl font-bold mb-6 border-b pb-2">Test Summary</h2>
-                                
-                                {/* Filter Dropdown */}
-                                <div className="mb-6">
-                                    <div className="relative inline-block">
-                                        <button className="bg-white border border-gray-300 rounded px-4 py-2 w-64 text-left flex justify-between items-center">
-                                            <span>Filter Reports</span>
-                                            <i className="fas fa-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                {/* Test Card */}
-                                <div className="grid grid-cols-6 gap-6 mb-6">
-                                    <div className="bg-gray-200 p-6 rounded flex flex-col items-center justify-center">
-                                        <h3 className="text-lg font-medium mb-4">NeoLoad</h3>
-                                        <p className="text-4xl font-bold">#10</p>
-                                    </div>
-                                </div>
-                                
-                                {/* Details Section */}
-                                <div className="bg-white p-6 rounded shadow-sm mb-6">
-                                    <h3 className="text-lg font-medium mb-6">General Details</h3>
-                                    
-                                    <div className="space-y-4">
-                                        <p className="py-1">Run Date: 2022-02-23 13:21:49</p>
-                                        <p className="py-1">Period: 22-08-23 13:21:49 – 2022-08-23 12:24:49</p>
-                                        <p className="py-1">Run Duration: 3 minutes, 0 seconds</p>
-                                        <p className="py-1">Status: <span className="text-green-500">PASSED</span></p>
-                                        <p className="py-1">Author: Perf Team</p>
-                                    </div>
-                                </div>
-                            </main>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+#### **Alert Scheduling Options**  
+- **Scheduled Alerts**: Run on a defined schedule (hourly, daily, weekly, etc.) and trigger when search results meet specified criteria.  
+- **Real-time Alerts**: Continuously run in the background and trigger immediately when conditions are met (can strain resources).  
+- **Custom Scheduling**: Uses cron syntax to define specific times.  
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+#### **Trigger Conditions**  
+- Alerts can be triggered based on:  
+  - **Number of search results**  
+  - **Number of hosts or sources**  
+  - **Custom conditions**  
+- Example: Trigger alert when failed password attempts are **greater than 25**.  
+
+#### **Managing Alert Notifications**  
+- Default expiration: 24 hours (can be customized).  
+- **Throttle Option**: Prevents excessive alerts by suppressing them for a set time.  
+  - Example: Suppress for **30 minutes** to avoid alert spam.  
+
+#### **Alert Actions**  
+When an alert is triggered, actions can include:  
+- **Adding to triggered alerts list**  
+- **Logging an event to a Splunk receiver**  
+- **Outputting results to a lookup file**  
+- **Sending an email or mobile notification**  
+- **Executing a script**  
+- **Using a webhook for external notifications**  
+- Admins can install/custom alert actions via "Manage Actions".  
+
+#### **Permissions & Visibility**  
+- Admins can set read/write permissions by **user role, app, or all apps**.  
+- Alerts can be shared across **all apps** or restricted to specific users.  
+
+#### **Viewing & Managing Alerts**  
+- Navigate to **"Triggered Alerts"** under the **Activity menu** to see active alerts.  
+- Alerts can be filtered by **app, owner, severity, or title**.  
+- Manage alerts via:  
+  - **Searches, Reports & Alerts** in **Settings**  
+  - **Alerts tab in the respective app**  
+- Options include **editing, disabling, cloning, or deleting alerts**.  
+
+#### **Example: Real-time Alert for Server Errors**  
+- **Search for HTTP 500 errors** in logs.  
+- Set alert type to **Real-time**.  
+- **Throttle results** to avoid spam (e.g., suppress for 30 mins).  
+- **Set severity to High** and **add to triggered alerts**.  
+- View results in **"Triggered Alerts"** under Activity.  
