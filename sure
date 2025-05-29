@@ -1,0 +1,156 @@
+import React, { useState } from 'react';
+import { Home, Activity, Settings, FileText, TrendingUp, Moon, Sun, User } from 'lucide-react';
+
+export default function PerformanceDashboard() {
+  const [activeTab, setActiveTab] = useState('Overview');
+  const [darkMode, setDarkMode] = useState(true);
+
+  const testData = [
+    {
+      projectName: 'Project Alpha',
+      version: '2.3.1',
+      testId: 'TEST-001',
+      status: 'Passed',
+      details: '500 concurrent users for 5 minutes maintaining 2% error rate'
+    },
+    {
+      projectName: 'Project Beta',
+      version: '1.9.7',
+      testId: 'TEST-002',
+      status: 'Failed',
+      details: 'System handled 1000 users over 10 minutes with CPU usage peaking at 97%'
+    },
+    {
+      projectName: 'Project Gamma',
+      version: '5.1.3',
+      testId: 'TEST-003',
+      status: 'Passed',
+      details: '800 requests per second sustained for 1 hour with average response time of 230ms'
+    }
+  ];
+
+  const performanceMetrics = [
+    { label: 'Error Rate', value: '3.4%' },
+    { label: 'Avg. Response Time', value: '444ms' },
+    { label: '95th Percentile', value: '777ms' },
+    { label: 'Avg. Request Time', value: '18s' },
+    { label: 'Concurrent Users', value: '4' }
+  ];
+
+  const sidebarItems = [
+    { icon: Home, label: 'Home Page', active: true },
+    { icon: Activity, label: 'Performance', active: false },
+    { icon: Settings, label: 'Settings', active: false },
+    { icon: FileText, label: 'Reports', active: false },
+    { icon: TrendingUp, label: 'Analytics', active: false }
+  ];
+
+  return (
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300`}>
+      {/* Sidebar */}
+      <div className={`fixed left-0 top-0 h-full w-16 ${darkMode ? 'bg-gray-800' : 'bg-white'} border-r ${darkMode ? 'border-gray-700' : 'border-gray-200'} flex flex-col items-center py-4 space-y-6`}>
+        {sidebarItems.map((item, index) => (
+          <div key={index} className={`p-3 rounded-lg cursor-pointer transition-colors ${item.active ? 'bg-blue-600 text-white' : `${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}`}>
+            <item.icon size={20} />
+          </div>
+        ))}
+      </div>
+
+      {/* Main Content */}
+      <div className="ml-16">
+        {/* Header */}
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} px-8 py-4 flex items-center justify-between`}>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-lg">TJX</div>
+              <h1 className="text-xl font-semibold">Performance Test Automation Framework</h1>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => setDarkMode(!darkMode)}
+              className={`p-2 rounded-lg ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <div className="flex items-center space-x-2">
+              <span className="font-medium">Maxine Hickey</span>
+              <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
+                <User size={16} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="p-8">
+          {/* Page Title */}
+          <h2 className="text-2xl font-bold mb-8">Home Page</h2>
+
+          {/* Tabs */}
+          <div className="flex space-x-8 mb-8 border-b border-gray-300">
+            {['Overview', 'Test History'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`pb-3 px-1 font-medium transition-colors relative ${
+                  activeTab === tab 
+                    ? 'text-blue-600 border-b-2 border-blue-600' 
+                    : `${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Recent Tests Section */}
+          <div className="mb-12">
+            <h3 className="text-xl font-semibold mb-6">Recent Tests</h3>
+            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+              <div className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} px-6 py-4 grid grid-cols-5 gap-4 font-semibold text-sm uppercase tracking-wide`}>
+                <div>Project Name</div>
+                <div>Version</div>
+                <div>Test ID</div>
+                <div>Test Status</div>
+                <div>Details</div>
+              </div>
+              {testData.map((test, index) => (
+                <div key={index} className={`px-6 py-4 grid grid-cols-5 gap-4 items-center ${darkMode ? 'border-gray-700' : 'border-gray-200'} ${index < testData.length - 1 ? 'border-b' : ''}`}>
+                  <div className="font-medium">{test.projectName}</div>
+                  <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{test.version}</div>
+                  <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{test.testId}</div>
+                  <div>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      test.status === 'Passed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {test.status}
+                    </span>
+                  </div>
+                  <div className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{test.details}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Performance Metrics Section */}
+          <div>
+            <h3 className="text-xl font-semibold mb-6">Additional Performance Metrics</h3>
+            <div className="grid grid-cols-5 gap-6">
+              {performanceMetrics.map((metric, index) => (
+                <div key={index} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg p-6 text-center`}>
+                  <div className={`text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {metric.label}
+                  </div>
+                  <div className="text-3xl font-bold">{metric.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
